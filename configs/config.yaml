@@ -6,3 +6,7 @@ model:
   yolo_model: "yolov8n.pt"
   confidence: 0.4
   vehicle_classes: [2,3,5,7]
+
+counting_line:
+  start: [1, 350]
+  end: [768, 350]
