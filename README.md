@@ -187,16 +187,16 @@ This is **not real-world speed in km/h**. Camera perspective affects pixel-based
 The application uses two OpenCV windows.
 ## Demo
 
-<p align="center">
-  <img src="assets/traffic-analytics-demo.png"
-       alt="Real-Time Traffic Analytics Demo"
-       width="800">
-</p>
-<p align="center">
-  <img src="assets/dashboard.png"
-       alt="Real-Time Traffic Analytics Demo"
-       width="800">
-</p>
+<table>
+  <tr>
+    <td width="70%">
+      <img src="assets/traffic-analytics-demo.png" width="100%">
+    </td>
+    <td width="30%">
+      <img src="assets/dashboard.png" width="100%">
+    </td>
+  </tr>
+</table>
 
 ### Traffic Analytics Window
 
