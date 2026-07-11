@@ -46,6 +46,8 @@ Live Dashboard
 
 ```text
 real-time-traffic-analytics/
+├── assets/
+│   └── traffic-analysis-demo.png
 |
 |-- app/
 |   |-- analytics/
@@ -183,6 +185,13 @@ This is **not real-world speed in km/h**. Camera perspective affects pixel-based
 ## Dashboard
 
 The application uses two OpenCV windows.
+## Demo
+
+<p align="center">
+  <img src="assets/traffic-analytics-demo.png"
+       alt="Real-Time Traffic Analytics Demo"
+       width="800">
+</p>
 
 ### Traffic Analytics Window
 
