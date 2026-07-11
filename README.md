@@ -237,21 +237,18 @@ app/analytics/dashboard.py
 
 <table>
   <tr>
-    <td width="70%">
-      <img src="assets/traffic-analytics-demo.png" width="100%">
+    <td width="70%" align="center">
+      <img src="assets/traffic-analytics-demo.png" 
+           alt="Traffic Analytics"
+           width="100%">
     </td>
-    <td width="30%">
-      <img src="assets/dashboard.png" width="100%">
+    <td width="30%" align="center">
+      <img src="assets/dashboard.png" 
+           alt="Traffic Analytics Dashboard"
+           width="100%">
     </td>
   </tr>
 </table>
-
-<p align="center">
-  <img src="assets/dashboard.png"
-       alt="Traffic analytics dashboard"
-       width="800">
-</p>
-
 
 Keeping the dashboard separate from the main traffic video prevents analytics information from covering the video.
 
@@ -325,7 +322,7 @@ app/analytics/heatmap.py
 ### Lane Analysis, Heatmap, and Updated Dashboard
 
 <p align="center">
-  <img src="assets/traffic-analytics-system.png"
+  <img src="assets/lane_analyzer.png"
        alt="Lane analysis, traffic heatmap and analytics dashboard"
        width="100%">
 </p>
