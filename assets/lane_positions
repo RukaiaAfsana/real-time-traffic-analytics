@@ -1,0 +1,62 @@
+import cv2
+
+
+points = []
+
+
+def mouse_callback(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        points.append((x, y))
+
+        print(f"Clicked: [{x}, {y}]")
+
+        # Draw clicked point
+        cv2.circle(frame, (x, y), 6, (0, 0, 255), -1)
+
+        # Show coordinate
+        cv2.putText(
+            frame,
+            f"{x}, {y}",
+            (x + 10, y - 10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 0, 255),
+            2
+        )
+
+        cv2.imshow("Select Coordinates", frame)
+
+
+# Open video
+cap = cv2.VideoCapture("../data/input/v4.mp4")
+
+# Read first frame
+ret, frame = cap.read()
+
+if not ret:
+    raise RuntimeError("Could not read video")
+
+print("Frame resolution:", frame.shape[1], "x", frame.shape[0])
+print("Click points on the image.")
+print("Press Q when finished.")
+
+cv2.namedWindow("Select Coordinates", cv2.WINDOW_NORMAL)
+cv2.imshow("Select Coordinates", frame)
+
+cv2.setMouseCallback(
+    "Select Coordinates",
+    mouse_callback
+)
+
+while True:
+    key = cv2.waitKey(1) & 0xFF
+
+    if key == ord("q"):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+print("\nSelected points:")
+for point in points:
+    print(list(point))
