@@ -2,14 +2,18 @@ import cv2
 import supervision as sv
 
 from app.analytics.line_counter import VehicleLineCounter
-
+from app.analytics.dashboard import TrafficDashboard
+from app.analytics.flow import TrafficFlow
 
 class VideoProcessor:
-    def __init__(self, input_path, output_path, counting_line=None):
+    def __init__(self, input_path, output_path, detector_class_names,counting_line=None):
         self.input_path = input_path
         self.output_path = output_path
         self.box_annotator = sv.BoxAnnotator()
         self.label_annotator = sv.LabelAnnotator()
+        self.dashboard = TrafficDashboard(detector_class_names)
+        self.traffic_flow = TrafficFlow()
+
 
         self.line_counter = None
         if counting_line is not None:
@@ -44,11 +48,34 @@ class VideoProcessor:
             result = detector.detect(frame)
             detections = tracker.update(result)
 
+            
             if self.line_counter is not None:
                 self.line_counter.update(detections)
 
+                video_time_seconds = (
+                    cap.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
+                )
+
+                total_crossings = (
+                    self.line_counter.in_count
+                    + self.line_counter.out_count
+                )
+
+                self.traffic_flow.update(
+                    total_crossings,
+                    video_time_seconds
+                )
+
+                flow_per_minute = self.traffic_flow.vehicles_per_minute(
+                    video_time_seconds
+                )
+
+                flow_per_hour = self.traffic_flow.vehicles_per_hour(
+                    video_time_seconds
+                )
+
             labels = [
-                f"ID {tracker_id} Class {class_id}"
+                f"ID {tracker_id} | {detector.class_names[int(class_id)]}"
                 for tracker_id, class_id in zip(
                     detections.tracker_id,
                     detections.class_id
@@ -67,10 +94,18 @@ class VideoProcessor:
             )
             if self.line_counter is not None:
                 annotated_frame = self.line_counter.annotate(annotated_frame)
+            
+            dashboard_frame = self.dashboard.create(
+                detections,
+                self.line_counter,
+                flow_per_minute,
+                flow_per_hour
+            )
+
 
             writer.write(annotated_frame)
             cv2.imshow("Traffic Analytics", annotated_frame)
-
+            cv2.imshow("Dashboard", dashboard_frame)
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
 

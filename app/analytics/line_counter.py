@@ -1,4 +1,3 @@
-import cv2
 import supervision as sv
 
 
@@ -8,12 +7,13 @@ class VehicleLineCounter:
             start=sv.Point(start[0], start[1]),
             end=sv.Point(end[0], end[1])
         )
+
         self.line_annotator = sv.LineZoneAnnotator(
-            thickness=2,
-            text_thickness=2,
-            text_scale=1
+            thickness=1,
+            text_thickness=1,
+            text_scale=.5
         )
-    
+
     def update(self, detections):
         self.line_zone.trigger(detections=detections)
 
@@ -22,3 +22,11 @@ class VehicleLineCounter:
             frame=frame,
             line_counter=self.line_zone
         )
+
+    @property
+    def in_count(self):
+        return self.line_zone.in_count
+
+    @property
+    def out_count(self):
+        return self.line_zone.out_count

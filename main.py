@@ -19,9 +19,10 @@ tracker = ByteTrackVehicleTracker()
 processor = VideoProcessor(
     input_path=config["video"]["input_path"],
     output_path=config["video"]["output_path"],
+    detector_class_names=detector.class_names,
     counting_line=config["counting_line"]
 )
-
+detector.class_names
 import inspect
 
 print(inspect.signature(processor.process))
