@@ -192,6 +192,11 @@ The application uses two OpenCV windows.
        alt="Real-Time Traffic Analytics Demo"
        width="800">
 </p>
+<p align="center">
+  <img src="assets/dashboard.png"
+       alt="Real-Time Traffic Analytics Demo"
+       width="800">
+</p>
 
 ### Traffic Analytics Window
 
