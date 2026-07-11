@@ -4,6 +4,7 @@ import supervision as sv
 from app.analytics.line_counter import VehicleLineCounter
 from app.analytics.dashboard import TrafficDashboard
 from app.analytics.flow import TrafficFlow
+from app.analytics.speed_estimator import RelativeSpeedEstimator
 
 class VideoProcessor:
     def __init__(self, input_path, output_path, detector_class_names,counting_line=None):
@@ -13,6 +14,7 @@ class VideoProcessor:
         self.label_annotator = sv.LabelAnnotator()
         self.dashboard = TrafficDashboard(detector_class_names)
         self.traffic_flow = TrafficFlow()
+        self.speed_estimator = RelativeSpeedEstimator()
 
 
         self.line_counter = None
@@ -55,6 +57,10 @@ class VideoProcessor:
                 video_time_seconds = (
                     cap.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
                 )
+                self.speed_estimator.update(
+                    detections,
+                    video_time_seconds
+                )
 
                 total_crossings = (
                     self.line_counter.in_count
@@ -76,6 +82,7 @@ class VideoProcessor:
 
             labels = [
                 f"ID {tracker_id} | {detector.class_names[int(class_id)]}"
+                f"{self.speed_estimator.get_speed(tracker_id):.1f} px/s"
                 for tracker_id, class_id in zip(
                     detections.tracker_id,
                     detections.class_id
